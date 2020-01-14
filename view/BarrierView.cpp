@@ -39,9 +39,9 @@ void BarrierView::draw()
   if (bd) {
     _shader.use();
     _shader.configure();
-    glEnable(GL_BLEND);
-    glDepthMask(GL_FALSE);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    /* glEnable(GL_BLEND); */
+    /* glDepthMask(GL_FALSE); */
+    /* glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); */
     _shader.setBool("animated", false);
     auto model = glm::mat4(1.0f);
     model = glm::translate(model, position());
@@ -51,7 +51,7 @@ void BarrierView::draw()
       model = glm::rotate(
         model, -lat + static_cast<float>(M_PI / 2.0), glm::vec3(0, 1, 0));
       model = glm::scale(model, glm::vec3(_scaleFactor));
-      model = glm::scale(model, glm::vec3(1.5 / h(lat), 1.5 / k(lat), 1));
+      model = glm::scale(model, glm::vec3(1.0 / h(lat), 1.0 / k(lat), 1));
     } else {
       model = glm::rotate(model, glm::radians(_angle), glm::vec3(0, 0, 1));
       model = glm::scale(model, glm::vec3(_scaleFactor));
@@ -59,8 +59,8 @@ void BarrierView::draw()
     _shader.setTransformation("model", glm::value_ptr(model));
     _model->setActiveTexturesPack(_texturesType);
     _model->render();
-    glDisable(GL_BLEND);
-    glDepthMask(GL_TRUE);
+    /* glDisable(GL_BLEND); */
+    /* glDepthMask(GL_TRUE); */
 
     showHealthBar();
   }

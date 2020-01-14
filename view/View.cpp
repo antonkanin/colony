@@ -34,12 +34,12 @@ float View::latitude() const
 
 float View::h(float phi) const
 {
-  return (1 + (::sqrt(2) / 2.0)) * (0.5 / ::pow(::cos(phi / 2.0), 2));
+  return (1 + (::sqrt(2) / 2.0)) * (0.5 / ::pow(::cos(phi / 2.0), 2)) / 1.5;
 }
 
 float View::k(float phi) const
 {
-  return 1.0 / (::cos(phi) * ::sqrt(2.0));
+  return 1.0 / (::cos(phi) * ::sqrt(2.0) * 1.5);
 }
 
 glm::mat4 View::flatModel() const
