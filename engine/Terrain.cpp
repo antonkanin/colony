@@ -22,13 +22,13 @@ Terrain::Terrain(Shader& shader,
                  divisions,
                  zScale,
                  TerrainType::Main);
-  _subMesh.init(0,
-                0,
-                topRightX - bottomLeftX,
-                topRightY - bottomLeftY,
-                divisions * 3,
-                zScale,
-                TerrainType::Sub);
+  /* _subMesh.init(0, */
+  /*               0, */
+  /*               topRightX - bottomLeftX, */
+  /*               topRightY - bottomLeftY, */
+  /*               divisions * 3, */
+  /*               zScale, */
+  /*               TerrainType::Sub); */
   _maxXy = std::max(topRightX, bottomLeftY);
 }
 
@@ -44,17 +44,17 @@ void Terrain::render()
 
 void Terrain::renderSub()
 {
-  _shader.use();
-  _shader.configure();
-  glEnable(GL_BLEND);
-  glDepthMask(GL_FALSE);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  auto model = glm::mat4(1.0f);
-  _shader.setTransformation("model", glm::value_ptr(model));
-  _shader.setBool("animated", false);
-  _subMesh.render();
-  glDisable(GL_BLEND);
-  glDepthMask(GL_TRUE);
+  /* _shader.use(); */
+  /* _shader.configure(); */
+  /* glEnable(GL_BLEND); */
+  /* glDepthMask(GL_FALSE); */
+  /* glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); */
+  /* auto model = glm::mat4(1.0f); */
+  /* _shader.setTransformation("model", glm::value_ptr(model)); */
+  /* _shader.setBool("animated", false); */
+  /* _subMesh.render(); */
+  /* glDisable(GL_BLEND); */
+  /* glDepthMask(GL_TRUE); */
 }
 
 glm::vec3 Terrain::getXYZ(glm::vec2 xy) const

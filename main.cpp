@@ -278,6 +278,14 @@ int main(int argc, char** argv)
     projection = glm::perspective(
       glm::radians(camera.fov()), screenWidth / screenHeight, 0.01f, 1000.0f);
 
+    auto terrain = Terrain(colorShader,
+                           camera,
+                           -10.0f * xScale,
+                           -10.0f * yScale,
+                           10.0f * xScale,
+                           10.0f * yScale,
+                           256 / 2,
+                           zScale);
     terrain.render();
 
     eventManager->tick();

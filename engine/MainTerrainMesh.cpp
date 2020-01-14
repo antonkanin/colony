@@ -14,16 +14,23 @@
 
 struct RgbColor
 {
+  RgbColor() = default;
+  RgbColor(float red, float green, float blue) : r(red), g(green), b(blue)
+  {
+  }
   float r;
   float g;
   float b;
 };
 
+static float color0[3] = { 113.0f / 255, 128.0f / 255, 143.0f / 255 };
+static float color1[3] = { 237.0f / 255, 227.0f / 255, 143.0f / 255 };
+static float color2[3] = { 242.0f / 255, 127.0f / 255, 115.0f / 255 };
 using HeightPart = float;
 std::map<HeightPart, RgbColor> colorMapping = {
-  { 0.0f, { 113.0f / 255, 128.0f / 255, 143.0f / 255 } },
-  { 0.5f, { 237.0f / 255, 227.0f / 255, 143.0f / 255 } },
-  { 1.0f, { 242.0f / 255, 127.0f / 255, 115.0f / 255 } }
+  { 0.0f, RgbColor(color0[0], color0[1], color0[2]) },
+  { 0.5f, RgbColor(color1[0], color1[1], color1[2]) },
+  { 1.0f, RgbColor(color2[0], color2[1], color2[2]) }
 };
 
 void MainTerrainMesh::calculateHeights(unsigned int width,
@@ -38,13 +45,24 @@ void MainTerrainMesh::calculateHeights(unsigned int width,
   static float frequency_plain = 0.077;
   static float frequencyFactor_plain = 4.0;
   static float amplitudeFactor_plain = 0.366;
+  static bool plains = false;
   ImGui::Begin("nonPlain");
-  ImGui::SetWindowPos(ImVec2(0, 610));
-  ImGui::SetWindowSize(ImVec2(300, 100));
+  ImGui::SetWindowPos(ImVec2(0, 500));
+  ImGui::SetWindowSize(ImVec2(350, 110));
+  ImGui::Checkbox("plains", &plains);
   ImGui::SliderFloat("frequency", &frequency, 0.0f, 1.0f);
   ImGui::SliderFloat("frequencyFactor", &frequencyFactor, 0.0f, 3.0f);
   ImGui::SliderFloat("amplitudeFactor", &amplitudeFactor, 0.0f, 1.0f);
   ImGui::End();
+  if (plains) {
+    ImGui::Begin("plain");
+    ImGui::SetWindowPos(ImVec2(0, 620));
+    ImGui::SetWindowSize(ImVec2(350, 90));
+    ImGui::SliderFloat("frequency", &frequency_plain, 0.0f, 1.0f);
+    ImGui::SliderFloat("frequencyFactor", &frequencyFactor_plain, 0.0f, 8.0f);
+    ImGui::SliderFloat("amplitudeFactor", &amplitudeFactor_plain, 0.0f, 1.0f);
+    ImGui::End();
+  }
   auto noise = Noise(777);
   std::vector<float> plainZ;
   float x, y;
@@ -118,8 +136,16 @@ void MainTerrainMesh::calculateHeights(unsigned int width,
                               amplitudeFactor,
                               5);
       auto nonPlain = nv * _zScale;
-      auto plain = plainZ.at(i * width + j);
-      auto water = waterZ.at(i * width + j);
+      float plain;
+      float water;
+      if (plains) {
+        plain = plainZ.at(i * width + j);
+        water = waterZ.at(i * width + j);
+        auto water = waterZ.at(i * width + j);
+      } else {
+        plain = nonPlain;
+        water = nonPlain;
+      }
       auto m = [](float& np, float& p, float mult) {
         float npf = 1;
         np = np * mult - (npf - mult);
@@ -164,6 +190,13 @@ void MainTerrainMesh::calculateColors(float min,
                                       unsigned int width,
                                       unsigned int augmentedWidth)
 {
+  ImGui::Begin("color");
+  ImGui::SetWindowPos(ImVec2(100, 0));
+  ImGui::SetWindowSize(ImVec2(200, 120));
+  ImGui::ColorEdit3("color0", color0);
+  ImGui::ColorEdit3("color1", color1);
+  ImGui::ColorEdit3("color2", color2);
+  ImGui::End();
   auto amplitude = max - min;
   for (unsigned int i = 0; i < width; ++i) {
     for (unsigned int j = 0; j < augmentedWidth; ++j) {
@@ -172,12 +205,12 @@ void MainTerrainMesh::calculateColors(float min,
         RgbColor a, b;
         auto h = (_v[augmentedWidth * i + j].p.z - min) / amplitude;
         if (h <= amplitude * 0.2) {
-          a = colorMapping[0.0f];
-          b = colorMapping[0.5f];
+          a = RgbColor(color0[0], color0[1], color0[2]);
+          b = RgbColor(color1[0], color1[1], color1[2]);
           h *= 2;
         } else {
-          a = colorMapping[0.5f];
-          b = colorMapping[1.0f];
+          a = RgbColor(color1[0], color1[1], color1[2]);
+          b = RgbColor(color2[0], color2[1], color2[2]);
           h = (h - 0.5) * 2;
         }
         _v[augmentedWidth * i + j].color.x = glm::lerp(a.r, b.r, h);
