@@ -38,10 +38,10 @@ void PhongShader::configure()
 
   static float fog_b = 0.603;
   static float fog_e = 8.276;
-  static float fog_h = 1.0f;
+  static float fog_h = -1.0f;
   static float water_b = 1000;
   static float water_e = 1000;
-  static float water_h = -0.287f;
+  static float water_h = -1.287f;
   ImGui::Begin("fogWater");
   ImGui::SetWindowPos(ImVec2(0, 710));
   ImGui::SetWindowSize(ImVec2(200, 160));

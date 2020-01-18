@@ -78,8 +78,8 @@ int main(int argc, char** argv)
   GLFWmonitor** monitors = glfwGetMonitors(&count);
   const GLFWvidmode* mode = glfwGetVideoMode(monitors[1]);
   float screenWidth = mode->width;
-  float screenHeight = mode->height - 150;
-  /* float screenHeight = mode->height; */
+  /* float screenHeight = mode->height - 150; */
+  float screenHeight = mode->height;
   GLFWwindow* window =
     glfwCreateWindow(screenWidth, screenHeight, "LearnOPenGl", NULL, NULL);
   if (window == NULL) {

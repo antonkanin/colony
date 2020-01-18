@@ -140,8 +140,7 @@ void MainTerrainMesh::calculateHeights(unsigned int width,
       float water;
       if (plains) {
         plain = plainZ.at(i * width + j);
-        water = waterZ.at(i * width + j);
-        auto water = waterZ.at(i * width + j);
+        water = plainZ.at(i * width + j);
       } else {
         plain = nonPlain;
         water = nonPlain;
