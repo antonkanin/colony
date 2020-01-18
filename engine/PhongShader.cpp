@@ -44,13 +44,13 @@ void PhongShader::configure()
   static float water_h = -0.287f;
   ImGui::Begin("fogWater");
   ImGui::SetWindowPos(ImVec2(0, 710));
-  ImGui::SetWindowSize(ImVec2(200, 160));
+  ImGui::SetWindowSize(ImVec2(200, 65));
   ImGui::SliderFloat("fog_b", &fog_b, 0.0f, 10.0f);
   ImGui::SliderFloat("fog_e", &fog_e, 0.0f, 10.0f);
-  ImGui::SliderFloat("fog_h", &fog_h, -1.0f, 1.0f);
-  ImGui::SliderFloat("water_b", &water_b, 0.0f, 1000.0f);
-  ImGui::SliderFloat("water_e", &water_e, 0.0f, 1000.0f);
-  ImGui::SliderFloat("water_h", &water_h, -0.31f, -0.25f);
+  /* ImGui::SliderFloat("fog_h", &fog_h, -1.0f, 1.0f); */
+  /* ImGui::SliderFloat("water_b", &water_b, 0.0f, 1000.0f); */
+  /* ImGui::SliderFloat("water_e", &water_e, 0.0f, 1000.0f); */
+  /* ImGui::SliderFloat("water_h", &water_h, -0.31f, -0.25f); */
   ImGui::End();
   auto cp = _camera.eye();
   setVec3("camPosition", cp);
